@@ -6,30 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
+
+    <style>
+        .corpo {
+            text-align: center;
+            background-image: url(https://wallpaperplay.com/walls/full/d/5/c/119945.jpg)
+        }
+
+        .formulario {
+            background-color: rgba(42, 53, 63, 0.425);
+            margin-top: 18%;
+            margin-right: 30%;
+            margin-left: 30%;
+        }
+
+input{
+    border-radius: 5px
+}
+
+        .titulo {
+            color: aliceblue
+        }
+    </style>
+
+
 </head>
 
-<body>
-<div>
-    <div>
-
-        <form onsubmit="return entrar()" id="form_registro">
-            <h1>Login</h1>
-            <div>
+<body class="corpo">
+    <div class="formulario">
+        <div>
+            <form onsubmit="return entrar()" id="form_registro">
+                <h1>Login</h1>
                 <div>
-                    <label for="nome_login">E-mail:</label>
-                    <input type="text" name="peca" id="peca" placeholder="Digite o seu e-mail"> <br>
+                    <div>
+                        <label for="nome_login">E-mail:</label>
+                        <input type="text" name="email" id="email" placeholder="Digite o seu e-mail"> <br>
+                    </div>
                 </div>
-              
-            </div>
-            <div>
-                <label for="nome_login">Senha:</label>
-                <input type="password" name="senha" id="senha"  placeholder="Senha"> <br>
-            </div>
-           
-        
-            <button class="btn">Entrar</button>
-        </form>
-    </div>
+                <br>
+                <div>
+                    <label for="nome_login">Senha:</label>
+                    <input type="password" name="senha" id="senha" placeholder="Senha"> <br>
+                </div>
+                <br>
+                <button class="btn">Entrar</button>
+                    <button type="button" onclick="voltar()">Voltar</button>
+                <br>
+            </form>
+        </div>
     </div>
 
 </body>
@@ -37,54 +61,53 @@
 </html>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-function verificarAutenticacao(){
-    if(localStorage.peca!=undefined){
-        window.location.href='https://theatromunicipal.org.br';
-    }
-}
 
-function entrar(){
-    if (peca.value == "" || senha.value == "") {
+
+    function voltar() {
+        window.location = 'index.html';
+    }
+
+    function verificarAutenticacao() {
+        if (localStorage.gui != undefined) {
+            window.location.href = 'https://www.google.com/';
+        }
+    }
+
+    function entrar() {
+        if (email.value == "" || senha.value == "") {
             swal({
                 title: "Aviso!",
                 text: "Preencha todos os campos!",
                 button: "Ok!",
-                icon:'warning'
+                icon: 'warning'
             });
             return false;
         } else {
-            // swal({
-            //     title: "Obrigado",
-            //     text: "Vamos entrar em contato!",
-            //     icon: "success",
-            // })
-            //     .then((willDelete) => {
-            //         if (willDelete) {
-                var formulario = new URLSearchParams(new FormData(form_registro));
+            var formulario = new URLSearchParams(new FormData(form_registro));
             console.log(formulario);
-            fetch('/users/entrar',{
-                method:"POST",
-                body:formulario
-            }).then((response)=>{
-                if(response.ok){
-                    response.json().then((resposta)=>{
+            fetch('/users/entrar', {
+                method: "POST",
+                body: formulario
+            }).then((response) => {
+                if (response.ok) {
+                    response.json().then((resposta) => {
                         console.log(resposta);
-                        
-                        localStorage.peca = resposta.nome_peca;
+
+                        localStorage.gui = resposta.nome;
                         verificarAutenticacao();
                     })
-                }else{
+                } else {
                     swal({
-                title: "Aviso!",
-                text: "Dados inválidos!",
-                button: "Ok!",
-                icon:'warning'
-            });
+                        title: "Aviso!",
+                        text: "Dados inválidos!",
+                        button: "Ok!",
+                        icon: 'warning'
+                    });
                 }
             });
             return false;
 
         }
-}
+    }
 
 </script>

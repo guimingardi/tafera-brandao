@@ -5,42 +5,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Formulário</title>
+    <title>Index</title>
+
+    <style>
+        .corpo {
+            text-align: center;
+            background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLhns0A6_ZKXPty2uhL7iySu3qLxF6ozVfjtJ6cG5qA6v36IyV)
+        }
+
+        .formulario {
+            background-color: rgba(42, 53, 63, 0.425);
+            margin-top: 18%;
+            margin-right: 30%;
+            margin-left: 30%;
+        }
+
+        .titulo {
+            color: aliceblue
+        }
+    </style>
+
 </head>
 
-<body>
-<div>
-    
+<body class="corpo">
     <div>
 
+        <div class="formulario">
             <form id="form_registro" onsubmit='return finalizar()' method="POST">
-                <h1>Faça seu Cadastro aqui</h1>
+                <h1 class="titulo ">Faça seu Cadastro aqui</h1>
                 <div>
-                    <div>
+                    <div class="titulo">
                         Nome:
-                        <input type="text" name="nome_usuario" id="nome_empresa" placeholder="Seu Nome"> <br>
+                        <input type="text" name="nome" id="nome" placeholder="Seu Nome"> <br>
                     </div>
                 </div>
+                <br>
                 <div>
-                <div>
-                    Telefone:
-                    <input type="tel" name="telefone_usuario" id="tel"  placeholder="Digite o seu telefone"> <br>
-                </div>
-               
-                    <div>
+                    <div class="titulo">
+                        Telefone:
+                        <input type="tel" name="telefone" id="tel" placeholder="Digite o seu telefone"> <br>
+                    </div>
+                    <br>
+                    <div class="titulo">
                         E-mail:
-                        <input type="email" name="email_usuario" id="email"  placeholder="Seu E-mail"><br>
+                        <input type="email" name="email" id="email" placeholder="Seu E-mail"><br>
+                    </div>
+                    <br>
+                    <div class="titulo">
+                        Defina sua senha:
+                        <input type="password" name="senha" id="senha" placeholder="Sua senha">
                     </div>
                 </div>
-               <div>
+                <br>
                 <div>
-                    <button type="button" onclick="voltar()">Voltar</button>
-            </div>
-            <div>
-                <button>Enviar</button>
-            </div>
-            </div>
-    
+                    <button>Enviar</button>
+                    <button type="button" onclick="logar()">Já é cadastrado? Entre aqui!</button>
+                </div>
             </form>
         </div>
 
@@ -53,35 +73,38 @@
 
 <script>
 
-function voltar(){
-    window.location = 'cadastro2.html';
-}
-function finalizar(){
-    if(nome_empresa.value == '' || cnpj.value == ''|| tel.value == ''|| email.value == ''|| endereco.value == ''){
-        swal({
+function logar() {
+        window.location = 'login.html';
+    }
+
+
+    function finalizar() {
+        if (nome.value == '' || tel.value == '' || email.value == '' || senha.vaçue == '') {
+            swal({
                 title: "Aviso!",
                 text: "Preencha todos os campos!",
                 button: "Ok!",
-                icon:'warning'
+                icon: 'warning'
             });
             return false;
-    }else{
-        
-        swal({
+        }
+        else {
+
+            swal({
                 title: "Obrigado!",
                 text: "Dados registrados com sucesso!",
                 icon: "success",
-                button:false
+                button: false
             });
             var formulario = new URLSearchParams(new FormData(form_registro));
             console.log(formulario);
-            fetch('/users/registrar2',{
-                method:"POST",
-                body:formulario
-            }).then((response)=>{
-                if(response.ok){
-                    setTimeout(function(){window.location = 'login.html'},2000);
-                }else{
+            fetch('/users/registrar', {
+                method: "POST",
+                body: formulario
+            }).then((response) => {
+                if (response.ok) {
+                    setTimeout(function () { window.location = 'login.html' }, 2000);
+                } else {
                     console.log(`Erro no registro.`);
                 }
             });
@@ -89,6 +112,6 @@ function finalizar(){
             // Intervalo para redirecionar para a última página
             // Mesma função só que com arrow function, forma mais atual de se escrever
             // setTimeout(()=>{window.location = 'teste3c.html'},3000);
+        }
     }
-}
 </script>
