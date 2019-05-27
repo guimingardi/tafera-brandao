@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Formulário</title>
+</head>
+
+<body>
+<div>
+    
+    <div>
+
+            <form id="form_registro" onsubmit='return finalizar()' method="POST">
+                <h1>Faça seu Cadastro aqui</h1>
+                <div>
+                    <div>
+                        Nome:
+                        <input type="text" name="nome_usuario" id="nome_empresa" placeholder="Seu Nome"> <br>
+                    </div>
+                </div>
+                <div>
+                <div>
+                    Telefone:
+                    <input type="tel" name="telefone_usuario" id="tel"  placeholder="Digite o seu telefone"> <br>
+                </div>
+               
+                    <div>
+                        E-mail:
+                        <input type="email" name="email_usuario" id="email"  placeholder="Seu E-mail"><br>
+                    </div>
+                </div>
+               <div>
+                <div>
+                    <button type="button" onclick="voltar()">Voltar</button>
+            </div>
+            <div>
+                <button>Enviar</button>
+            </div>
+            </div>
+    
+            </form>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+
+function voltar(){
+    window.location = 'cadastro2.html';
+}
+function finalizar(){
+    if(nome_empresa.value == '' || cnpj.value == ''|| tel.value == ''|| email.value == ''|| endereco.value == ''){
+        swal({
+                title: "Aviso!",
+                text: "Preencha todos os campos!",
+                button: "Ok!",
+                icon:'warning'
+            });
+            return false;
+    }else{
+        
+        swal({
+                title: "Obrigado!",
+                text: "Dados registrados com sucesso!",
+                icon: "success",
+                button:false
+            });
+            var formulario = new URLSearchParams(new FormData(form_registro));
+            console.log(formulario);
+            fetch('/users/registrar2',{
+                method:"POST",
+                body:formulario
+            }).then((response)=>{
+                if(response.ok){
+                    setTimeout(function(){window.location = 'login.html'},2000);
+                }else{
+                    console.log(`Erro no registro.`);
+                }
+            });
+            return false;
+            // Intervalo para redirecionar para a última página
+            // Mesma função só que com arrow function, forma mais atual de se escrever
+            // setTimeout(()=>{window.location = 'teste3c.html'},3000);
+    }
+}
+</script>

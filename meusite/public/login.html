@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+</head>
+
+<body>
+<div>
+    <div>
+
+        <form onsubmit="return entrar()" id="form_registro">
+            <h1>Login</h1>
+            <div>
+                <div>
+                    <label for="nome_login">E-mail:</label>
+                    <input type="text" name="peca" id="peca" placeholder="Digite o seu e-mail"> <br>
+                </div>
+              
+            </div>
+            <div>
+                <label for="nome_login">Senha:</label>
+                <input type="password" name="senha" id="senha"  placeholder="Senha"> <br>
+            </div>
+           
+        
+            <button class="btn">Entrar</button>
+        </form>
+    </div>
+    </div>
+
+</body>
+
+</html>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+function verificarAutenticacao(){
+    if(localStorage.peca!=undefined){
+        window.location.href='https://theatromunicipal.org.br';
+    }
+}
+
+function entrar(){
+    if (peca.value == "" || senha.value == "") {
+            swal({
+                title: "Aviso!",
+                text: "Preencha todos os campos!",
+                button: "Ok!",
+                icon:'warning'
+            });
+            return false;
+        } else {
+            // swal({
+            //     title: "Obrigado",
+            //     text: "Vamos entrar em contato!",
+            //     icon: "success",
+            // })
+            //     .then((willDelete) => {
+            //         if (willDelete) {
+                var formulario = new URLSearchParams(new FormData(form_registro));
+            console.log(formulario);
+            fetch('/users/entrar',{
+                method:"POST",
+                body:formulario
+            }).then((response)=>{
+                if(response.ok){
+                    response.json().then((resposta)=>{
+                        console.log(resposta);
+                        
+                        localStorage.peca = resposta.nome_peca;
+                        verificarAutenticacao();
+                    })
+                }else{
+                    swal({
+                title: "Aviso!",
+                text: "Dados inválidos!",
+                button: "Ok!",
+                icon:'warning'
+            });
+                }
+            });
+            return false;
+
+        }
+}
+
+</script>
